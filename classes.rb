@@ -1,23 +1,37 @@
 class Dog
-    def talk
-        puts "Bark!"
+    attr_reader :name, :age
+
+    def name=(value)
+        if value == ""
+            raise "Error!!"
+        end
+        @name = value
     end
-    def move(destantion)
+    
+    def age=(value)
+        if value < 0
+            raise "Error!!"
+        end
+        @age = value
+    end
+            
+    def report_age
+        puts "#{@name} is #{@age} years old."
+    end
+
+    def talk
+        puts "#{@name} says Bark!"
+    end
+
+    def move(distantion='home')
         puts "Runnning to the #{distantion}."
     end
 end
 
-class Cat  
-    def talk 
-        puts "Meoow!"
-    end
-    def move(destantion)
-        puts "Runnning to the #{destantion}."
-    end
-end
+sharic = Dog.new
 
-Sharic = Dog.new
-Barsic = Cat.new
-
-Sharic.talk
-Barsic.move("kitchen")
+#sharic.talk
+sharic.name = "Sh"
+sharic.report_age
+sharic.move
+puts sharic.name
