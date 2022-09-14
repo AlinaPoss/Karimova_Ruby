@@ -1,4 +1,4 @@
-class Dog
+class Animal
     attr_reader :name, :age
 
     def name=(value)
@@ -28,10 +28,15 @@ class Dog
     end
 end
 
+class Dog < Animal
+    def gav
+        puts "gaw!"
+end
+
 sharic = Dog.new
 
 #sharic.talk
 sharic.name = "Sh"
 sharic.report_age
 sharic.move
-puts sharic.name
+sharic.gav
