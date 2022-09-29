@@ -15,17 +15,33 @@ def filling(lines)
 end
 
 def multiplication(matrix1, matrix2)
-    str = matrix1.length
-    column = matrix1[1].length
+    str_1 = matrix1.length
+    column_1 = matrix1[0].length
+    str_2 = matrix2.length
+    column_2 = matrix2[0].length
+    puts("#{str_1} #{column_1} #{str_2} #{column_2}")
+
+    if column_1 == str_2
+        norm_size = 1
+    else
+        norm_size = 0
+    end
+
     final_matrix = []
     i = 0
-    while i < str
+    while i < str_1 && norm_size = 1
         current_line = []
         k = 0
-        while k < column
-            current_number = matrix1[i][k]*matrix2[i][k]
-            current_line.push(current_number)
-            k += 1
+        while k < column_2
+            p = 0
+            current_summ = 0
+            while p < str_2
+                current_summ += (matrix1[i][p]*matrix2[p][k])
+                #puts("#{i} #{p} #{p} #{k}")
+                p += 1
+            end
+            k = k + 1
+            current_line.push(current_summ)
         end
         final_matrix.push(current_line)
         i += 1
@@ -34,12 +50,16 @@ def multiplication(matrix1, matrix2)
 end
 
 lines = []
+puts "Ведите в текстовый файл две матрицы. 
+Необходимо, чтобы количество столбцов в первой матрице совпадало с количеством строк во второй."
 File.open('data.txt') do |review|
     lines = review.readlines
 end
 matrix1, matrix2 = filling(lines)
 final_matrix =  multiplication(matrix1, matrix2)
+
 pos = 0
+puts('Произведение матриц:')
 while pos < final_matrix.length
     puts multiplication(matrix1, matrix2)[pos].join(" ")
     pos += 1
