@@ -12,6 +12,12 @@ class RecursComp
     compileT
     return if @index >= @str.length
     cur = @str[@index].chr
+    cur_next = @str[@index+1].chr
+    if (cur == '/' and cur_next == '/') or (cur == '/' and cur_next == '*')
+      @index += 2
+      compileK
+      @index += 2
+    end
     if cur == '+' or cur == '-'
       @index += 1
       compileF
@@ -23,20 +29,13 @@ class RecursComp
     return if @index >= @str.length
     cur = @str[@index].chr
     after_cur = @str[@index+1].chr
-    if cur == '*' or (cur == '/' and after_cur != '/' and after_cur != '*') or cur =='%'
+    if cur == '*' or cur == '/' or cur =='%'
       @index += 1
       compileT
       print "#{cur} "
-    elsif cur == '/' and (after_cur == '/' or after_cur == '*')
-        compileK
     end
   end
   def compileM
-    if @str[@index].chr == '/' and ((@str[@index+1].chr) == '/' or (@str[@index+1].chr) == '*')
-      @index += 2
-      compileK
-      @index += 2
-    end
     if @str[@index].chr == '(' or @str[@index].chr == '{' or @str[@index].chr == '['
       @index += 1
       compileF
@@ -46,7 +45,7 @@ class RecursComp
     end
   end
   def compileK
-    while @str[@index].chr != '/' and @str[@index].chr != '*'
+    while not(@str[@index].chr == '/' and @str[@index+1].chr == '/') and not(@str[@index].chr == '*' and @str[@index+1].chr == '/')
         @index += 1
     end
   end
@@ -65,10 +64,10 @@ while true
 end
 
 =begin
-𝐹 → 𝑇 | 𝑇 + 𝐹 | 𝑇 − 𝐹 
+𝐹 → 𝑇 | 𝑇 + 𝐹 | 𝑇 − 𝐹 | //K// | /*K*/
 𝑇 → 𝑀 | 𝑀 * 𝑇 | 𝑀/𝑇
 𝑀 → (𝐹) | 𝑉 | K
 𝑉 → 𝑎 | 𝑏 | . . . | z
-K → 
+K → k
 =end
 
