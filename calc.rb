@@ -20,12 +20,12 @@ class RecursComp
       compileF
       print "#{cur} "
     end
-    compileK
   end
   def compileT
     #print "t#{@index}t"
     compileK
     compileM
+    compileK #проверка коммента после скобки
     return if @index >= @str.length
     cur = @str[@index].chr
     if cur == '*' or cur == '/' or cur =='%'
@@ -49,16 +49,22 @@ class RecursComp
   def compileK
     #print "k#{@index}k"
     return if @index >= @str.length
-    if (@str[@index].chr == '/' and @str[@index+1].chr == '/') or (@str[@index].chr == '/' and @str[@index+1].chr == '*')
+    if (@str[@index].chr == '/' and @str[@index+1].chr == '*')
         @index += 2
-        while not(@str[@index-1].chr == '/' and @str[@index].chr == '/') and not(@str[@index-1].chr == '*' and @str[@index].chr == '/')
+        while not(@str[@index-1].chr == '*' and @str[@index].chr == '/')
             @index += 1
             #print "i#{@index}i"
         end
         @index += 1
+    elsif (@str[@index].chr == '/' and @str[@index+1].chr == '/')
+      @index += 2
+      #exit
     end
   end
   def compileV
+    if @index < @str.length 
+        compileK
+    end
     print "#{@str[@index].chr} "
     @index += 1
     if @index < @str.length 
@@ -76,11 +82,11 @@ while true
 end
 
 =begin
-𝐹 → 𝑇 | 𝑇 + 𝐹 | 𝑇 − 𝐹 | //K//F | 
+𝐹 → 𝑇 | 𝑇 + 𝐹 | 𝑇 − 𝐹 | /*K*/F | F//
 ....................... 
 𝑇 → 𝑀 | 𝑀 * 𝑇 | 𝑀/𝑇
 𝑀 → (𝐹) | 𝑉 | K 
-𝑉 → 𝑎 | 𝑏 | . . . | z | V//K//
+𝑉 → 𝑎 | 𝑏 | . . . | z | V/*K*/
 K → 
 =end
 
